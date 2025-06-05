@@ -35,21 +35,13 @@ module ADSB
       @body[0..4].to_i(2)
     end
 
-    # Get type of message.
-    #
-    # ==== Examples
-    #   message = ADSB::Message.new('8D4840D6202CC371C32CE0576098')
-    #   type = message.type
-    def type
-      case type_code
-        when 1, 2, 3, 4 then :identification
-        when 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 then :position
-        when 19 then :velocity
+    def self.parse body
+      downlink_format = body.hex.to_s(2)[0..4].to_i(2)
+      if downlink_format == 17 or downlink_format == 18
+        ADSB::Messages::Base.new(body)
+      else
+        ADSB::Messages::ModeSMessage.new(body)
       end
-    end
-
-    def type_code
-      @body[32..36].to_i(2)
     end
   end
 end
