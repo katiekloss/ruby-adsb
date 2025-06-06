@@ -36,7 +36,14 @@ module ADSB
     end
 
     def self.parse body
-      downlink_format = body.hex.to_s(2)[0..4].to_i(2)
+      body = body.hex.to_s(2)
+      if body.length < 56
+        body = body.rjust(56, "0")
+      elsif body.length < 112
+        body = body.rjust(112, "0")
+      end
+
+      downlink_format = body[0..4].to_i(2)
       if downlink_format == 17 or downlink_format == 18
         ADSB::Messages::Base.new(body)
       else
