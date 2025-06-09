@@ -16,6 +16,10 @@ module ADSB
         end
       end
 
+      def data
+        @body[32..87]
+      end
+
       def type_code
         @body[32..36].to_i(2)
       end

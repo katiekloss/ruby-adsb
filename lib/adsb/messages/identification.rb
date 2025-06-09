@@ -1,6 +1,8 @@
+require 'adsb/messages/base'
+
 module ADSB
   module Messages
-    module Identification
+    class Identification < Base
 
       # Get the reported identification.
       #
