@@ -1,6 +1,6 @@
 module ADSB
   module Messages
-    module Velocity
+    class Velocity < Base
 
       # Get the reported heading.
       #
@@ -12,11 +12,10 @@ module ADSB
         return heading < 0 ? heading + 360 : heading
       end
 
-      def self.extended message
-        west_east_velocity = signed_velocity(message.data[14..23].to_i(2), message.data[13].to_i(2))
-        message.instance_variable_set(:@west_east_velocity, west_east_velocity)
-        south_north_velocity = signed_velocity(message.data[25..34].to_i(2), message.data[24].to_i(2))
-        message.instance_variable_set(:@south_north_velocity, south_north_velocity)
+      def initialize body
+        super(body)
+        @west_east_velocity = signed_velocity(data[14..23].to_i(2), data[13].to_i(2))
+        @south_north_velocity = signed_velocity(data[25..34].to_i(2), data[24].to_i(2))
       end
 
       # Get the reported velocity.
@@ -28,9 +27,7 @@ module ADSB
         return Math.sqrt(@west_east_velocity ** 2 + @south_north_velocity ** 2)
       end
 
-      private
-
-      def self.signed_velocity velocity, velocity_sign
+      def signed_velocity velocity, velocity_sign
         return velocity_sign.eql?(0) ? velocity - 1 : -1 * (velocity - 1)
       end
     end

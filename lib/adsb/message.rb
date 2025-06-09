@@ -46,7 +46,9 @@ module ADSB
       downlink_format = body[0..4].to_i(2)
       if downlink_format == 17 or downlink_format == 18
         return case type_code(body)
-        when 4 then ADSB::Messages::Identification.new(body)
+        when 1, 2, 3, 4 then ADSB::Messages::Identification.new(body)
+        when 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22 then ADSB::Messages::Position.new(body)
+        when 19 then ADSB::Messages::Velocity.new(body)
         else ADSB::Messages::Base.new(body)
         end
       end

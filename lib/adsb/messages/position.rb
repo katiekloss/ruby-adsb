@@ -1,6 +1,7 @@
 module ADSB
   module Messages
-    module Position
+    class Position < Base
+
       def altitude
         altitude = @body[40..51]
         resolution = altitude.slice!(7).eql?(0) ? 100 : 25
