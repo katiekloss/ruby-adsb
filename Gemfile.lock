@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    ruby-adsb (0.2.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -8,8 +13,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 2)
   minitest (~> 5.25)
   rake (~> 13.3)
+  ruby-adsb!
 
 BUNDLED WITH
    2.6.7
